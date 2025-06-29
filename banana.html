@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banana Breads by Thee Baked Baker</title>
+
+    <!-- Google Fonts: Inter and Lilita One -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Lilita+One&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Embedded Stylesheet -->
+    <style>
+        /* ------------------- */
+        /* 1. Global Setup    */
+        /* ------------------- */
+        :root {
+            /* Minimalist Color Palette */
+            --bg-color: #F9F9F9;
+            --text-color: #333333;
+            --accent-color: #B99556;
+            --border-color: #EAEAEA;
+            --subtle-text-color: #777777;
+            --brand-white: #FFFFFF; /* Added for clarity */
+
+            /* Fonts */
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Lilita One', sans-serif; /* New display font */
+
+            /* Transitions */
+            --transition-fast: 0.3s ease;
+            --transition-slide: 0.7s ease-in-out;
+        }
+
+        /* Basic Reset & Body Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-main);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .main-wrapper {
+            height: 100%;
+            width: 100%;
+        }
+
+        .slider-container {
+            display: flex;
+            height: 100%;
+            transition: transform var(--transition-slide);
+        }
+
+        .slide {
+            flex-shrink: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        /* ------------------- */
+        /* 2. Keyframe Animations */
+        /* ------------------- */
+        @keyframes subtle-fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes subtle-slide-up {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .slide.active .animated {
+            animation: subtle-slide-up 0.9s cubic-bezier(0.19, 1, 0.22, 1) both;
+        }
+
+
+        /* ------------------- */
+        /* 3. Specific Slide Styles */
+        /* ------------------- */
+
+        /* --- Intro Slide --- */
+        .intro-slide {
+            background-color: var(--bg-color);
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        #main-logo {
+            width: 200px;
+            max-width: 50%;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+
+        .intro-slide .main-title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            color: var(--text-color);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .intro-slide .tagline {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .intro-slide .sub-tagline {
+            font-size: 1rem;
+            color: var(--subtle-text-color);
+            font-weight: 400;
+            margin-top: 0.5rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--subtle-text-color);
+            animation: subtle-fade-in 2s infinite alternate;
+        }
+        .scroll-indicator i {
+            margin-left: 0.5rem;
+        }
+
+        /* --- Banana Bread Slides (General) --- */
+        .bread-slide {
+            background-color: var(--bg-color);
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 5%;
+        }
+        
+        .bread-image img {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .bread-details {
+            text-align: center;
+        }
+
+        .bread-details h2 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .bread-details .flavor-profile {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--subtle-text-color);
+            line-height: 1.6;
+        }
+
+        .price-badge {
+            display: inline-block;
+            background-color: var(--border-color);
+            color: var(--text-color);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .collapsible {
+            margin-bottom: 1.5rem;
+        }
+
+        .collapsible-toggle {
+            background: none;
+            border: none;
+            color: var(--subtle-text-color);
+            font-family: var(--font-main);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .collapsible-toggle:hover {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            margin: 0.5rem auto 0;
+            max-width: 300px;
+            font-size: 0.9rem;
+            color: var(--subtle-text-color);
+        }
+        
+        .collapsible-inner {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .reviews-box {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--subtle-text-color);
+        }
+        
+        /* --- Healthy Options Slide --- */
+        .healthy-options-slide {
+            background-color: var(--bg-color);
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .healthy-content {
+            max-width: 600px;
+        }
+
+        .healthy-content h2 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .healthy-content .info-text {
+            font-size: 1.2rem;
+            color: var(--subtle-text-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .healthy-content .info-text strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .healthy-content .joke-text {
+            font-size: 1rem;
+            color: var(--subtle-text-color);
+            font-style: italic;
+            margin-bottom: 2.5rem;
+        }
+
+        .healthy-content .order-info {
+            font-weight: 600;
+            background-color: var(--border-color);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+        }
+
+        /* --- Final Slide --- */
+        .final-slide {
+            background-color: var(--accent-color);
+            text-align: center;
+            color: var(--brand-white);
+        }
+
+        .final-content h2 {
+            font-size: 2.5rem;
+            color: var(--brand-white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .final-content .final-subtitle {
+            font-size: 1.2rem;
+            font-family: var(--font-main);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background-color: var(--text-color);
+            color: var(--brand-white);
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-bottom: 3rem;
+        }
+        .cta-button:hover {
+            background-color: var(--brand-white);
+            color: var(--text-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .socials a {
+            color: var(--brand-white);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: var(--transition-fast);
+        }
+        .socials a:hover {
+            opacity: 0.7;
+        }
+
+        /* ------------------- */
+        /* 4. Navigation UI    */
+        /* ------------------- */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.7);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition-fast);
+        }
+        .nav-arrow:hover {
+            background-color: var(--brand-white);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .prev { left: 20px; }
+        .next { right: 20px; }
+
+        .dots-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .dot.active {
+            background-color: var(--accent-color);
+        }
+
+        /* ------------------- */
+        /* 5. Responsive Design */
+        /* ------------------- */
+        @media (min-width: 768px) {
+            .bread-slide {
+                grid-template-columns: 1fr 1fr;
+            }
+            .bread-details {
+                text-align: left;
+            }
+            .bread-details h2 {
+                font-size: 3.5rem;
+            }
+            .flavor-profile, .reviews-box, .collapsible-content {
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 767px) {
+            .intro-slide .main-title { font-size: 2.5rem; }
+            .intro-slide .tagline { font-size: 1.2rem; }
+            .intro-slide .sub-tagline { font-size: 0.9rem; }
+            .bread-details h2 { font-size: 2rem; }
+            .nav-arrow { display: none; } /* Hide arrows on mobile for cleaner look */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="main-wrapper">
+        <div class="slider-container">
+            <section class="slide intro-slide">
+                <div class="intro-content">
+                    <img src="https://i.postimg.cc/wvBtTPKt/Whats-App-Image-2025-06-26-at-12-19-12-9625bb2a.jpg" id="main-logo" alt="Thee Baked Baker Logo">
+                    <h1 class="main-title">banana bread menu</h1>
+                    <h2 class="tagline">Quality Goods by Thee Baked Baker</h2>
+                    <p class="sub-tagline">Wake. Bake. Repeat.</p>
+                </div>
+                 <div class="scroll-indicator">
+                    <span>scroll to explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </section>
+            
+            <section class="slide healthy-options-slide">
+                <div class="healthy-content animated">
+                    <h2>Feeling Healthy-ish?</h2>
+                    <p class="info-text">
+                        Good news! Any of our decadent flavours can also be ordered as a <strong>gluten-free</strong> or <strong>sugar-free</strong> option.
+                    </p>
+                    <p class="joke-text">
+                        (Because we believe in balance... and that two loaves are definitely better than one.)
+                    </p>
+                    <p class="order-info">
+                        Minimum pre-order for healthy options is 2 loaves.
+                    </p>
+                </div>
+            </section>
+
+            <section class="slide final-slide">
+                <div class="final-content">
+                    <h2>Only available on pre-order</h2>
+                    <p class="final-subtitle">The sweetest 1000 kshs you'll spend this week</p>
+                    <button class="cta-button">Pre-order Now</button>
+                    <div class="socials">
+                        <a href="https://www.instagram.com/thee.bakedbaker?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@thee.bakedbaker?is_from_webapp=1&sender_device=pc" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <button id="prev-slide" class="nav-arrow prev" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
+    <button id="next-slide" class="nav-arrow next" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
+
+    <div class="dots-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const baseIngredients = ["Flour", "Baking Powder", "Baking Soda", "Caster Sugar", "Eggs", "Royal Fresh Maziwa Lala", "Macadamia Oil", "Ripe Bananas"];
+            const sugarFreeBaseIngredients = ["Flour", "Baking Powder", "Baking Soda", "Eggs", "Royal Fresh Maziwa Lala", "Macadamia Oil", "Ripe Bananas"];
+
+            const bananaBreads = [
+                { name: "Mint Choc Banana Bread", image: "https://i.postimg.cc/ZKVwbwf1/20250626-1804-Mint-Choc-Banana-Bread-remix-01jypc5k2ef0ksx7yr29xpfgeg.png", description: "This loaf blends rich banana flavor with rustic mint fudge chunks baked into the crust. Moist, chocolatey, and cooling—each bite delivers that nostalgic mint chocolate bar magic in cake form.", price: "Kshs 1000", ingredients: [...baseIngredients, "Mint Chocolate"]},
+                { name: "Orange & Cardamom Banana Bread", image: "https://i.postimg.cc/RFHFgpYy/20250626-1440-Orange-Cardamom-Bread-simple-compose-01jyp0jnr2ekc9y2k12dhvtfed.png", description: "A bright, aromatic twist featuring zesty orange peel and floral cardamom. Soft, fragrant crumb with citrus top notes and a warm, spiced finish. A cozy companion for chilly mornings.", price: "Kshs 1000", ingredients: [...baseIngredients, "Orange Zest", "Cardamom Powder"]},
+                { name: "Coconut Crust Banana Bread", image: "https://i.postimg.cc/FHyVBGMf/20250626-1459-Coconut-Crust-Banana-Bread-simple-compose-01jyp1kyqpeakamk32n5jt38qg.png", description: "Topped generously with toasted desiccated coconut, this loaf is tender, tropical, and golden. Crunchy on top, soft inside—it’s like a beach holiday baked into every banana-rich slice.", price: "Kshs 1000", ingredients: [...baseIngredients, "Coconut Oil", "Dessicated Coconut"]},
+                { name: "Espresso Chocolate Chip Banana Bread", image: "https://i.postimg.cc/yNWX8BJR/20250626-1510-Espresso-Banana-Bread-Bliss-simple-compose-01jyp296zsf30r4t9s7kd69c36.png", description: "A grown-up favorite with deep espresso notes and bittersweet chocolate chips baked into the crust. Moist and aromatic, with the perfect balance of roasted coffee richness and natural banana sweetness.", price: "Kshs 1000", ingredients: [...baseIngredients, "Instant Coffee Powder", "Dark Chocolate Chips"]},
+                { name: "Dark Chocolate Banana Bread", image: "https://i.postimg.cc/W4rznfCK/20250626-1551-Indulgent-Chocolate-Banana-Bread-simple-compose-01jyp4mktdfc2vjrbwxs5n9a61-1.png", description: "For true chocolate lovers—this one’s intense. Cocoa-rich batter with a moist, brownie-like texture, topped with a blanket of fine dark chocolate shavings. Smooth, dark, and indulgently satisfying.", price: "Kshs 1000", ingredients: [...baseIngredients, "70% Dark Chocolate", "Cocoa"]},
+                { name: "Date & Cardamom Banana Bread", image: "https://i.postimg.cc/9Mm278hy/20250626-1608-Date-Cardamom-Banana-Bread-simple-compose-01jyp5kxm7f5jty434ssrc64j4.png", description: "Caramel-sweet Medjool dates and warming cardamom make this loaf feel luxurious and earthy. Swirls of baked date paste give it depth, while the crumb remains soft, dense, and comforting.", price: "Kshs 1000", ingredients: [...sugarFreeBaseIngredients, "Date Paste", "Cardamom Powder"]},
+                { name: "Dark & White Chocolate Banana Bread", image: "https://i.postimg.cc/1tCkNyMZ/20250626-1615-Chocolate-Banana-Bread-Elegance-simple-compose-01jyp5zjhxesdb4rwycdgzkkms.png", description: "A banana base swirled with both white and dark chocolate shavings on top. Moist, balanced, and rich—creamy sweetness meets bold cocoa for the perfect banana chocolate duo.", price: "Kshs 1000", ingredients: [...baseIngredients, "Dark and White Choco Chunks"]},
+                { name: "Carrot Banana Bread", image: "https://i.postimg.cc/PNGFmJw0/20250626-1635-Rustic-Carrot-Banana-Bread-simple-compose-01jyp73qt5ed0t2qnes1z4vzj4.png", description: "A warmly spiced hybrid of banana and carrot cake. Extra moist from grated carrots, topped with rolled oats and carrot curls. Rustic, wholesome, and perfect with chai or coffee.", price: "Kshs 1000", ingredients: [...baseIngredients, "Grated Carrots", "Cinnamon", "Nutmeg", "Cloves", "Ginger Powder", "Oats"]},
+                { name: "Double Chocolate Banana Bread", image: "https://i.postimg.cc/K8mhVp1w/20250626-1656-Chocolate-Chunk-Loaf-remix-01jyp8a1qferp8tc2vrj3pyemk.png", "description": "Chocolate overload in the best way—moist banana cocoa base loaded with gooey chips and chunks. Rich, fudgy, and topped with roughly chopped chocolate for that crunchy, melty finish.", price: "Kshs 1000", ingredients: [...baseIngredients, "Cocoa Powder", "Dark Chocolate Chunks"]},
+                { name: "Peanut Crumble Banana Bread", image: "https://i.postimg.cc/hGwwS2GS/20250626-1702-Peanut-Crumble-Delight-simple-compose-01jyp8nvgqe0fsc3j4w2ynn361.png", description: "Nutty, soft, and nostalgic. This banana bread features a crunchy topping of crushed roasted peanuts for texture and flavor. Like peanut brittle met banana cake in the best way.", price: "Kshs 1000", ingredients: [...baseIngredients, "Crushed Roasted Peanuts"]},
+            ];
+
+            const sliderContainer = document.querySelector('.slider-container');
+            const healthyOptionsSlide = document.querySelector('.healthy-options-slide');
+            const dotsContainer = document.querySelector('.dots-container');
+            
+            bananaBreads.forEach((bread) => {
+                const breadSlug = bread.name.toLowerCase()
+                    .replace(/ & /g, '-and-')
+                    .replace(/ /g, '-')
+                    .replace(/[^\w-]+/g, '');
+
+                const slide = document.createElement('section');
+                slide.className = `slide bread-slide ${breadSlug}`;
+                slide.innerHTML = `
+                    <div class="bread-image animated">
+                        <img src="${bread.image}" alt="${bread.name}">
+                    </div>
+                    <div class="bread-details animated">
+                        <h2>${bread.name}</h2>
+                        <p class="flavor-profile">${bread.description}</p>
+                        <div class="price-badge">${bread.price}</div>
+                        <div class="collapsible">
+                            <button class="collapsible-toggle">Ingredients &darr;</button>
+                            <div class="collapsible-content">
+                                <div class="collapsible-inner">
+                                    <ul>${bread.ingredients.map(ing => `<li>${ing}</li>`).join('')}</ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reviews-box">
+                            <p><strong>Rave Reviews:</strong> "Coming soon!"</p>
+                        </div>
+                    </div>
+                `;
+                sliderContainer.insertBefore(slide, healthyOptionsSlide);
+                
+                const toggle = slide.querySelector('.collapsible-toggle');
+                const content = slide.querySelector('.collapsible-content');
+                toggle.addEventListener('click', () => {
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        toggle.innerHTML = 'Ingredients &darr;';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        toggle.innerHTML = 'Ingredients &uarr;';
+                    }
+                });
+            });
+
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+
+            const dots = document.querySelectorAll('.dot');
+            const nextButton = document.getElementById('next-slide');
+            const prevButton = document.getElementById('prev-slide');
+            let currentSlide = 0;
+
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                sliderContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+                updateNav();
+            }
+
+            function updateNav() {
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSlide);
+                });
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+                prevButton.disabled = currentSlide === 0;
+                nextButton.disabled = currentSlide === totalSlides - 1;
+            }
+            
+            nextButton.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (currentSlide > 0) goToSlide(currentSlide - 1);
+            });
+
+            // --- CTA BUTTON WHATSAPP FUNCTIONALITY ---
+            const ctaButton = document.querySelector('.cta-button');
+            ctaButton.addEventListener('click', () => {
+                const phoneNumber = '254710550299'; 
+                const message = encodeURIComponent("Hi Thee Baked Baker! I saw your portfolio and I'd like to place a pre-order.");
+                const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+                window.open(whatsappURL, '_blank');
+            });
+
+            // Initialize the slider
+            goToSlide(0);
+        });
+    </script>
+</body>
+</html>
